@@ -18,7 +18,7 @@ public class Main{
 
         String userGive = "";
 
-        do {
+        do{
 
             System.out.println("Welcome to the Student manager system.\nOptions:\n[add] - add a student\n[all] - view the name and information of every student\n[search] - search for a specific student by ID number\n[exit] - leave program");//prompt user
 
