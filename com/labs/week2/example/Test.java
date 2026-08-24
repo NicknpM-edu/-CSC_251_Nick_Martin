@@ -20,6 +20,7 @@ public class Test<T>{
 
         Box<String> b = new Box<>();
         b.set("Hello");
+        System.out.println(b.get());
         Box<Integer> n = new Box<>();
         n.set(100);
 

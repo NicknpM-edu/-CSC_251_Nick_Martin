@@ -10,9 +10,9 @@ import java.util.*;//imports
 
 public class Student{
 
-    List<String> list = new ArrayList<>();
+    List<String> names = new ArrayList<>();
+    //names.add("Sam","Jim","Alex","Nancy","Billy"); 
 
-        list.add("hello");
-        list.add("42");
-        String s = list.get(0);
+    List<Double> gpas = new ArrayList<>();
+
 }
