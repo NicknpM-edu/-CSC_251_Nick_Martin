@@ -13,6 +13,7 @@ public class Main{
     public static void main(String[] args){
 
         Student student = new Student();
+        Student student2 = new Student();
         student.makeLists();
 
         //instance of box with the string type, with all methods
@@ -41,6 +42,36 @@ public class Main{
         
         ListInteract<Double> listDob = new ListInteract<>();
         listDob.setList(student.gpas);
+
+        //part 4
+        DataManager<String> newListString = new DataManager<>();
+        newListString.add("hello");
+        newListString.add("world");
+        newListString.add("good to meet you");
+
+        newListString.remove("hello");
+        newListString.get(1);
+        System.out.println(newListString.getSize());
+        newListString.printAll();
+
+        DataManager<Integer> newListInt = new DataManager<>();
+        newListInt.add(5);
+        newListInt.add(2);
+        newListInt.add(20000000);
+
+        newListInt.remove(5);
+        newListInt.get(1);
+        System.out.println(newListInt.getSize());
+        newListInt.printAll();
+
+        DataManager<Student> newListStudent = new DataManager<>();
+        newListStudent.add(student);
+        newListStudent.add(student2);
+
+        newListStudent.remove(student);
+        newListStudent.get(0);
+        System.out.println(newListStudent.getSize());
+        newListStudent.printAll();
 
     }
 }
