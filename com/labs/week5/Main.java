@@ -55,5 +55,14 @@ public class Main{
         printInt.printArrayList(numbers);//print list of numbers fancy style(recursively)
 
 
+
+        //part 3
+        String currentPath = System.getProperty("user.dir");
+
+        FileSearch lookup = new FileSearch();
+        lookup.printPath(currentPath);
+
+
+
     }
 }
