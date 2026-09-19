@@ -57,10 +57,10 @@ public class Main{
 
 
         //part 3
-        String currentPath = System.getProperty("user.dir");
+        String currentPath = System.getProperty("user.dir");//get current filepath
 
         FileSearch lookup = new FileSearch();
-        lookup.printPath(currentPath);
+        lookup.printPath(currentPath);//find all files within file path and print recursively
 
 
 
