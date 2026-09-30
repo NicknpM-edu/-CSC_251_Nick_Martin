@@ -11,4 +11,9 @@ public class Book {
     int totalQuantitySold;
     double price;
     double totalRevenue;
+
+    public void aggregateQty(int quantity) {
+        totalQuantitySold += quantity;
+
+    }
 }
