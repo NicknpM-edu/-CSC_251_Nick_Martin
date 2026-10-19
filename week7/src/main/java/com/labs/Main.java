@@ -14,7 +14,7 @@ public class Main {
     public static void main(String[] args) {
         
         HashMap<Integer, Book> salesMap = new HashMap<>();//hashmap of books
-        String path = "C:\\Users\\lh178-16\\Downloads\\-CSC_251_Nick_Martin\\week7\\src\\main\\java\\com\\labs\\sales.csv";
+        String path = "C:\\coding classes\\-CSC_251_Nick_Martin\\week7\\src\\main\\java\\com\\labs\\sales.csv";//(note to teacher) change to individuals file path
         try (BufferedReader br = new BufferedReader(new FileReader(path))) {//read sales.csv
             String line;
             while ((line = br.readLine()) != null) {// go line by line
@@ -23,15 +23,10 @@ public class Main {
                 String[] bookRay = line.split(",");//comma seperated
                 if(bookRay.length != 4){// if seperated incorrectly save in errorlog
                     putlog(line);
-                    break;
+                    System.out.println(line+" length error");//state what's wrong with it
+                    continue;//skip the rest of loop
                 }
-                for(String i:bookRay){//if section empty, dump to errorlog
-                    if(i == " " || i == ""|| i == null){
-                        putlog(line);
-                        break;
-                    }
-
-                }
+                
                 try{
                     //turn line into book class
                     Book newBook = new Book();
@@ -55,23 +50,25 @@ public class Main {
                 }
                 catch(Exception e){//if it errors put in errorlog
                     putlog(line);
-                    return;
+                    System.out.println(line+" Parse error");//state error
+                    continue;//skip the rest of loop
                 }
                 
             }
         }
-        catch(IOException e){
+        catch(IOException e){//if it can't find the file
             System.out.println(e);
-            return;
         }
-        System.out.println("\n\nBook Sales Summary:");
+
+        System.out.println("\n\nBook Sales Summary:");// introduce output
+        // the variables for the summary math
         double allRevenue = 0;
         String highRevenueTit = "";
         double highRevenueNum = 0;
         String highSellerTit = "";
         int highSellerNum = 0;
 
-        for(int i:salesMap.keySet()){
+        for(int i:salesMap.keySet()){// go through each item and find the maximum revenue and seller
             Book getten = salesMap.get(i); 
             getten.totalRevenue = getten.price * getten.totalQuantitySold;
             allRevenue += getten.totalRevenue;
@@ -83,22 +80,22 @@ public class Main {
                 highSellerTit = getten.title;
                 highSellerNum = getten.totalQuantitySold;
             }
-            System.out.println("ID: "+getten.bookID+" Title: "+getten.title+" Total Quantity Sold: "+getten.totalQuantitySold+" Total Revenue: $"+getten.totalRevenue);
+            System.out.println("ID: "+getten.bookID+" Title: "+getten.title+" Total Quantity Sold: "+getten.totalQuantitySold+" Total Revenue: $"+getten.totalRevenue);//output book information
         }
-        System.out.println("Total Revenue: "+allRevenue+" Best Seller: "+highSellerTit+" of "+highSellerNum+" copies sold. Most Profitable is "+highRevenueTit+" of $"+ highRevenueNum+" made.");
+        System.out.println("Total Revenue: "+allRevenue+" Best Seller: "+highSellerTit+" of "+highSellerNum+" copies sold. Most Profitable is "+highRevenueTit+" of $"+ highRevenueNum+" made.");//overall summary info
 
     }
         
         
     
-    public static void putlog(String line){
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter("exceptionLog.csv",true))) {
+    public static void putlog(String line){//call method when finding an error line
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter("exceptionLog.csv",true))) {//write to log file
             bw.newLine();
             bw.write(line);
-            System.out.println("inccorect entry saved.");
+            System.out.println("Inccorect entry saved.");
         } 
         catch (IOException e) {
-            System.out.println("Error writing log file.");
+            System.out.println("Error writing log file.");//output for error writing file
         }
         
     }
