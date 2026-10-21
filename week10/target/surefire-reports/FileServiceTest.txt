@@ -1,28 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: FileServiceTest
 -------------------------------------------------------------------------------
-Tests run: 2, Failures: 1, Errors: 1, Skipped: 0, Time elapsed: 0.053 s <<< FAILURE! -- in FileServiceTest
-FileServiceTest.testSaleWrite -- Time elapsed: 0.018 s <<< ERROR!
-java.lang.StringIndexOutOfBoundsException: String index out of range: 35
-	at java.lang.String.substring(String.java:1963)
-	at java.lang.String.subSequence(String.java:2003)
-	at java.io.PrintWriter.append(PrintWriter.java:1042)
-	at FileService.saveSale(FileService.java:47)
-	at FileServiceTest.testSaleWrite(FileServiceTest.java:35)
-	at java.lang.reflect.Method.invoke(Method.java:498)
-	at java.util.ArrayList.forEach(ArrayList.java:1259)
-	at java.util.ArrayList.forEach(ArrayList.java:1259)
-
-FileServiceTest.testSalesLoad -- Time elapsed: 0.004 s <<< FAILURE!
-org.opentest4j.AssertionFailedError: expected: <4> but was: <0>
-	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
-	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
-	at org.junit.jupiter.api.AssertEquals.failNotEqual(AssertEquals.java:197)
-	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:150)
-	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:145)
-	at org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:527)
-	at FileServiceTest.testSalesLoad(FileServiceTest.java:26)
-	at java.lang.reflect.Method.invoke(Method.java:498)
-	at java.util.ArrayList.forEach(ArrayList.java:1259)
-	at java.util.ArrayList.forEach(ArrayList.java:1259)
-
+Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.052 s -- in FileServiceTest

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" version="3.0.2" name="FileServiceTest" time="0.053" tests="2" errors="1" skipped="0" failures="1">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" version="3.0.2" name="FileServiceTest" time="0.052" tests="4" errors="0" skipped="0" failures="0">
   <properties>
     <property name="sun.desktop" value="windows"/>
     <property name="awt.toolkit" value="sun.awt.windows.WToolkit"/>
@@ -18,7 +18,7 @@
     <property name="user.country" value="US"/>
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="sun.boot.library.path" value="C:\Program Files (x86)\Eclipse Adoptium\jdk-8.0.442.6-hotspot\jre\bin"/>
-    <property name="sun.java.command" value="C:\Users\lh178-16\AppData\Local\Temp\surefire6881368820153993326\surefirebooter-20261019121847225_3.jar C:\Users\lh178-16\AppData\Local\Temp\surefire6881368820153993326 2026-10-19T12-18-47_018-jvmRun1 surefire-20261019121847225_1tmp surefire_0-20261019121847225_2tmp"/>
+    <property name="sun.java.command" value="C:\Users\lh178-16\AppData\Local\Temp\surefire1315659192180252087\surefirebooter-20261021124212470_3.jar C:\Users\lh178-16\AppData\Local\Temp\surefire1315659192180252087 2026-10-21T12-42-12_264-jvmRun1 surefire-20261021124212470_1tmp surefire_0-20261021124212470_2tmp"/>
     <property name="surefire.test.class.path" value="c:\Users\lh178-16\Downloads\-CSC_251_Nick_Martin\week10\target\test-classes;c:\Users\lh178-16\Downloads\-CSC_251_Nick_Martin\week10\target\classes;C:\Users\lh178-16\.m2\repository\org\junit\jupiter\junit-jupiter\5.10.0\junit-jupiter-5.10.0.jar;C:\Users\lh178-16\.m2\repository\org\junit\jupiter\junit-jupiter-api\5.10.0\junit-jupiter-api-5.10.0.jar;C:\Users\lh178-16\.m2\repository\org\opentest4j\opentest4j\1.3.0\opentest4j-1.3.0.jar;C:\Users\lh178-16\.m2\repository\org\junit\platform\junit-platform-commons\1.10.0\junit-platform-commons-1.10.0.jar;C:\Users\lh178-16\.m2\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;C:\Users\lh178-16\.m2\repository\org\junit\jupiter\junit-jupiter-params\5.10.0\junit-jupiter-params-5.10.0.jar;C:\Users\lh178-16\.m2\repository\org\junit\jupiter\junit-jupiter-engine\5.10.0\junit-jupiter-engine-5.10.0.jar;C:\Users\lh178-16\.m2\repository\org\junit\platform\junit-platform-engine\1.10.0\junit-platform-engine-1.10.0.jar;"/>
     <property name="sun.cpu.endian" value="little"/>
     <property name="user.home" value="C:\Users\lh178-16"/>
@@ -31,7 +31,7 @@
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
     <property name="java.awt.graphicsenv" value="sun.awt.Win32GraphicsEnvironment"/>
-    <property name="surefire.real.class.path" value="C:\Users\lh178-16\AppData\Local\Temp\surefire6881368820153993326\surefirebooter-20261019121847225_3.jar"/>
+    <property name="surefire.real.class.path" value="C:\Users\lh178-16\AppData\Local\Temp\surefire1315659192180252087\surefirebooter-20261021124212470_3.jar"/>
     <property name="sun.boot.class.path" value="C:\Program Files (x86)\Eclipse Adoptium\jdk-8.0.442.6-hotspot\jre\lib\resources.jar;C:\Program Files (x86)\Eclipse Adoptium\jdk-8.0.442.6-hotspot\jre\lib\rt.jar;C:\Program Files (x86)\Eclipse Adoptium\jdk-8.0.442.6-hotspot\jre\lib\sunrsasign.jar;C:\Program Files (x86)\Eclipse Adoptium\jdk-8.0.442.6-hotspot\jre\lib\jsse.jar;C:\Program Files (x86)\Eclipse Adoptium\jdk-8.0.442.6-hotspot\jre\lib\jce.jar;C:\Program Files (x86)\Eclipse Adoptium\jdk-8.0.442.6-hotspot\jre\lib\charsets.jar;C:\Program Files (x86)\Eclipse Adoptium\jdk-8.0.442.6-hotspot\jre\lib\jfr.jar;C:\Program Files (x86)\Eclipse Adoptium\jdk-8.0.442.6-hotspot\jre\classes"/>
     <property name="user.script" value=""/>
     <property name="sun.management.compiler" value="HotSpot Client Compiler"/>
@@ -61,30 +61,8 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="52.0"/>
   </properties>
-  <testcase name="testSaleWrite" classname="FileServiceTest" time="0.018">
-    <error message="String index out of range: 35" type="java.lang.StringIndexOutOfBoundsException"><![CDATA[java.lang.StringIndexOutOfBoundsException: String index out of range: 35
-	at java.lang.String.substring(String.java:1963)
-	at java.lang.String.subSequence(String.java:2003)
-	at java.io.PrintWriter.append(PrintWriter.java:1042)
-	at FileService.saveSale(FileService.java:47)
-	at FileServiceTest.testSaleWrite(FileServiceTest.java:35)
-	at java.lang.reflect.Method.invoke(Method.java:498)
-	at java.util.ArrayList.forEach(ArrayList.java:1259)
-	at java.util.ArrayList.forEach(ArrayList.java:1259)
-]]></error>
-  </testcase>
-  <testcase name="testSalesLoad" classname="FileServiceTest" time="0.004">
-    <failure message="expected: &lt;4&gt; but was: &lt;0&gt;" type="org.opentest4j.AssertionFailedError"><![CDATA[org.opentest4j.AssertionFailedError: expected: <4> but was: <0>
-	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
-	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
-	at org.junit.jupiter.api.AssertEquals.failNotEqual(AssertEquals.java:197)
-	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:150)
-	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:145)
-	at org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:527)
-	at FileServiceTest.testSalesLoad(FileServiceTest.java:26)
-	at java.lang.reflect.Method.invoke(Method.java:498)
-	at java.util.ArrayList.forEach(ArrayList.java:1259)
-	at java.util.ArrayList.forEach(ArrayList.java:1259)
-]]></failure>
-  </testcase>
+  <testcase name="testSaleDelete" classname="FileServiceTest" time="0.025"/>
+  <testcase name="testSaleWrite" classname="FileServiceTest" time="0.007"/>
+  <testcase name="testSalesLoad" classname="FileServiceTest" time="0.001"/>
+  <testcase name="testDiscountCalc" classname="FileServiceTest" time="0.003"/>
 </testsuite>

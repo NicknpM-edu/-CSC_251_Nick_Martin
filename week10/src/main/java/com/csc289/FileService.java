@@ -20,7 +20,10 @@ public class FileService{
             String line;
             while ((line = br.readLine()) != null) {// go line by line
 
+                
                 String[] saleRay = line.split(",");//comma seperated
+                if(saleRay.length == 5){
+                
                 String id = saleRay[0];
                 String customerName = saleRay[1];
                 String productName = saleRay[2];
@@ -30,6 +33,7 @@ public class FileService{
 
                 Sale sale = new Sale(id,customerName,productName,price,discountRate);
                 sales.add(sale);
+                }
             }
                 
             
@@ -42,16 +46,44 @@ public class FileService{
     }
 
     public void saveSale(Sale sale){//save new sale to file
-        try (PrintWriter pw = new PrintWriter(path)) {//append to sales.txt  NEED FIX WRITING NOT APPENDING
+
+        try(BufferedWriter bw = new BufferedWriter(new FileWriter(path,true))){
             
-        pw.append(sale.SaleId+","+sale.CustomerName+","+sale.ProductName+","+sale.Price+","+sale.DiscountRate+",");
-      
-        pw.close();
+            bw.newLine();
+            bw.write(sale.SaleId+","+sale.CustomerName+","+sale.ProductName+","+sale.Price+","+sale.DiscountRate);
+        }
+
+        catch (IOException e) {
+            System.out.println("Error writing file.");
+        }
+
+
+    }
+
+    public void deleteSale(String Id){//delete sale by id
+        
+        ArrayList<Sale> salesRay = loadSales();
+        
+        for(Sale sale:salesRay){
+            
+            if(sale.SaleId.equals(Id)){//remove sale by id
+                
+                salesRay.remove(sale);
+            }
         }
         
-        catch(IOException e){//if it can't find the file
-            System.out.println(e);
+        try(BufferedWriter bw = new BufferedWriter(new FileWriter(path))){//rewrite file with only kept sales
+            for(Sale sale:salesRay){
+            bw.write(sale.SaleId+","+sale.CustomerName+","+sale.ProductName+","+sale.Price+","+sale.DiscountRate);
+            bw.newLine();
+            }
+
         }
+
+        catch (IOException e) {
+            System.out.println("Error writing file.");
+        }
+        
 
     }
 

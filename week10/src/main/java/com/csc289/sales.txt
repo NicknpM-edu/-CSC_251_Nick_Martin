@@ -1,0 +1,4 @@
+S001,John Smith,Laptop,1200.00,0.10
+S002,Maria Lopez,Monitor,300.00,0.05
+S003,David Chen,Keyboard,80.00,0.00
+S004,Sarah Johnson,Tablet,600.00,0.15
