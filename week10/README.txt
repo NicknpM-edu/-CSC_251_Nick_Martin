@@ -1,0 +1,1 @@
+The way I developed my TDD process was to first image the successful result, test for that, then create the code to make the result I imagined.
