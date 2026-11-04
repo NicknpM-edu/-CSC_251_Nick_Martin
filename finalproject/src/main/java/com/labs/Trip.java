@@ -5,22 +5,23 @@
 */
 
 
-
+package com.labs;
 
 import java.util.*;
+import java.time.*;
 
 public class Trip{//traits of every held Trip
 
 Integer tripId;// must be unique/hashmapID
 String origin;//where trip start
 String destination;//where trip end
-Date expDeparture;//when trip was scheduled to begin
-Date expArrival;// when trip was scheduled to end MUST AFTER EXPDEPARTURE
+LocalDate expDeparture;//when trip was scheduled to begin
+LocalDate expArrival;// when trip was scheduled to end MUST AFTER EXPDEPARTURE
 String purpose;//stated goal of trip
-Driver driver;
-Vehicle vehicle;
-Date trueDeparture;//when the trip actually started
-Date trueArrival;//when the trip actually ended MUST AFTER DEPARTURE
+Integer driverId;
+Integer vehicleId;
+LocalDate trueDeparture;//when the trip actually started
+LocalDate trueArrival;//when the trip actually ended MUST AFTER DEPARTURE
 String status;//what the trip is now: (delayed, in-progress, completed, cancelled)
 
 
