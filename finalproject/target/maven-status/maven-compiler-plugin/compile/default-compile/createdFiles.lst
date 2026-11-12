@@ -1,1 +1,5 @@
+com\labs\Main.class
+com\labs\Vehicle.class
 com\labs\Driver.class
+com\labs\Maintenance.class
+com\labs\Trip.class
