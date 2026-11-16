@@ -24,5 +24,8 @@ LocalDate trueDeparture;//when the trip actually started
 LocalDate trueArrival;//when the trip actually ended MUST AFTER DEPARTURE
 String status;//what the trip is now: (delayed, in-progress, completed, cancelled)
 
+public String info(){
+    return "ID :"+tripId+" origin: "+origin+" Destination: "+destination+" expected departure: "+ expDeparture+" Expected Arrival: "+ expArrival+" purpose: "+purpose+" drivers Id: "+driverId+" Vehicle Id: "+ vehicleId+ " True Departure: "+ trueDeparture+" True Arrival: "+trueArrival+" Current Status: "+ status;
+}
 
 }

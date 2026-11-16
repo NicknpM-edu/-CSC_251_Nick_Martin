@@ -2,7 +2,7 @@
 @author: Nick Martin
 @date: 11/2/2026
 @purpose: show and complete dashboard operations
-@where i left off: fix line 96
+@where i left off: finish driver "report" path
 */
 
 
@@ -15,48 +15,116 @@ import java.time.*;
 
 public class Main {
         public static HashMap<Integer, Vehicle> vehicles = new HashMap<>();//hashmap of Vehicles
-        public static  HashMap<Integer, Driver> drivers = new HashMap<>();//hashmap of Drivers
+        public static HashMap<Integer, Driver> drivers = new HashMap<>();//hashmap of Drivers
         public static HashMap<Integer, Trip> trips = new HashMap<>();//hashmap of Trips
         public static HashMap<Integer, Maintenance> workOrders = new HashMap<>();//hashmap of maintenence work orders
 
     public static void main(String[] args) {
 
-        String Vpath = "C:\\coding classes\\-CSC_251_Nick_Martin\\week7\\src\\main\\java\\com\\labs\\sales.csv";//path for Vehicle csv
+        String Vpath = "C:\\Users\\lh178-16\\Downloads\\-CSC_251_Nick_Martin\\finalproject\\vehicles.csv";//path for Vehicle csv
         String Dpath = "C:\\Users\\lh178-16\\Downloads\\-CSC_251_Nick_Martin\\finalproject\\drivers.csv";//path for drivers csv
-        String Tpath = "C:\\coding classes\\-CSC_251_Nick_Martin\\week7\\src\\main\\java\\com\\labs\\sales.csv";//path for trips csv
-        String Mpath = "C:\\coding classes\\-CSC_251_Nick_Martin\\week7\\src\\main\\java\\com\\labs\\sales.csv";//path for workOrders csv
+        String Tpath = "C:\\Users\\lh178-16\\Downloads\\-CSC_251_Nick_Martin\\finalproject\\trips.csv";//path for trips csv
+        String Mpath = "C:\\Users\\lh178-16\\Downloads\\-CSC_251_Nick_Martin\\finalproject\\workOrders.csv";//path for workOrders csv
 
         //DashBoard
         Boolean leave = false;
         Scanner speak = new Scanner(System.in);//make scanner
-
+        loadItems(Dpath,"driver");//load driver hashmap
+        loadItems(Vpath,"vehicle");//load vehicle hashmap
+        loadItems(Tpath,"trip");//load trips hashmap
+        loadItems(Mpath,"workOrders");//load workOrders hashmap
         while(leave == false){
             System.out.println("What is your company role (please input exact option) \n [Driver] [Dispatcher] [Maintenance Supervisor] [Maintenance Technician] [Fleet Manager] \n(input \"Leave\" to exit program)");
             String entry = speak.nextLine();
-            System.out.println("Welcome "+entry);
+            
 
             if(entry.equals("Leave")){
                 leave = true;
+                break;
             }
+            System.out.println("Welcome "+entry);
 
-            if(entry.equals("Driver")){
-                loadItems(Dpath,"driver");//load driver hashmap
+            if(entry.equals("Driver")){//if user enters driver
+                
 
                 System.out.println("Please enter employee ID");
                 entry = speak.nextLine();//receive id
                 
                 Driver user = drivers.get(Integer.parseInt(entry));
-                if(user != null){
 
+                while(user != null && (!entry.equals("Leave"))){
+                    System.out.println("What would you like to see? \n review assigned [trips], [report] vehicle problem");
+                    entry = speak.nextLine();//receive id
+
+                    if (entry.equals("trips")){//iterate through trips and make list of those that belong to user
+                        ArrayList<Trip> assigned = new ArrayList<>();
+                        for (Trip trip : trips.values()) {
+                            if (trip.driverId == user.empId){
+                                System.out.println(trip.info());
+                                assigned.add(trip);
+
+                                
+                            }
+                        }
+                        if(assigned.size() > 0){
+                            System.out.println("What would you like to do with assigned trips? \n [confirm] trip completion, [Leave] program");
+                            entry = speak.nextLine();//entry
+
+                            if(entry.equals("confirm")){
+                                System.out.println("give the ID number of the trip you would like to confirm");
+                                entry = speak.nextLine();//entry
+
+                                for (Trip trip : assigned){
+                                    if (trip.tripId == Integer.parseInt(entry)){
+                                        if(trip.status.equals("in-progress")){
+                                        Boolean properEntry = false;
+                                        while(properEntry == false && (!entry.equals("Leave"))){
+                                            try{
+                                            System.out.println("What was the Departure time for the trip \n in xxxx(year)-xx(month)-xx(day) format");
+                                            String entryDeparture = speak.nextLine();//entry
+
+                                            System.out.println("What was the Arrival time for the trip \n in xxxx(year)-xx(month)-xx(day) format");
+                                            String entryArrival = speak.nextLine();//entry
+                                            if(LocalDate.parse(entryArrival).isAfter(LocalDate.parse(entryDeparture))){
+                                                trip.status = "completed";
+                                                System.out.println("Update complete");
+                                                properEntry = true;
+                                            }
+                                            else{
+                                                System.out.println("Improper entry, arrival date must be after departure date");
+                                            }
+                                            }
+                                            catch(Exception e){
+                                                System.out.println("Improper entry, format must be xxxx(year)-xx(month)-xx(day)");
+                                            }
+                                            
+
+                                        }
+                                        }else{
+                                            System.out.println("Drivers cannot complete trips that are not in-progress");
+                                        }
+
+                                        
+                                    }
+                                }
+                            }
+                        }
+                        else{
+                            System.out.println("No assigned trips");
+                        }
+                    
+                    }
+                    if (entry.equals("report")){//make vehicle problem report
+                        
+                    }
                 }
-
-                else{
+                if(user == null){
                     System.out.println("Driver ID does not exist");
                 }
                 
                 
                 
-                //System.out.println("What would you like to see? \n [review assigned trips] [review reports given]");
+                
             }
         }
 
@@ -74,7 +142,7 @@ public class Main {
                 
                 
                     //turn line into specified class
-                    if (type == "vehicle"){//driver class
+                    if (type == "vehicle"){//vehicle class
                     Vehicle newvehicle = new Vehicle();
                     //add all variables
                     newvehicle.CompanyID = Integer.parseInt(itemRay[0]);
@@ -89,9 +157,22 @@ public class Main {
                         newvehicle.OperationalStatus.add(item);
                     }
                     newvehicle.mileage = Integer.parseInt(itemRay[9]);
+                    if(itemRay[10].split(".").length > 1){
                     for (String item : itemRay[10].split(".")){
                         newvehicle.requirements.add(item);
                     }
+                    }
+                    //turn itemray[9] into hashmap
+                    String[] reportsed = itemRay[9].split(".");
+                    HashMap<Integer, String> reportses = new HashMap<>();
+                    if(reportsed.length > 1){
+                    for(int i = 0;i<=(reportsed.length);i++){
+                        if((i%2) == 0){
+                            reportses.put(Integer.parseInt(reportsed[i]),reportsed[i+1]);
+                        }
+                    }
+                    }
+                    newvehicle.reports = reportses;
 
 
                     
@@ -101,7 +182,6 @@ public class Main {
                     else if (type == "driver"){
                     Driver newdriver = new Driver();
                     //add all variables
-                    System.out.println(itemRay[0]);
                     newdriver.empId = Integer.parseInt(itemRay[0]);
                     newdriver.name = itemRay[1];
                     newdriver.empStatus = itemRay[2];
@@ -111,26 +191,18 @@ public class Main {
                     for (String item : itemRay[6].split(".")){
                         newdriver.special.add(item);
                     }
-                    if((itemRay[7].split(".")).length > 0){//prevent parse error if empty
+                    if((itemRay[7].split(".")).length > 1){//prevent parse error if empty
                         for (String item : itemRay[7].split(".")){
-                        
-                            newdriver.offTime.add(LocalDate.parse(item));
+                            
+                            
+                                newdriver.offTime.add(LocalDate.parse(item));
+                                
                         }
                     }
                     for (String item : itemRay[8].split(".")){
                         newdriver.history.add(item);
                     }
-                    //turn itemray[9] into hashmap
-                    String[] reportsed = itemRay[9].split(".");
-                    HashMap<LocalDate, String> reportses = new HashMap<>();
-                    if(reportsed.length > 1){
-                    for(int i = 0;i<=(reportsed.length);i++){
-                        if((i%2) == 0){
-                            reportses.put(LocalDate.parse(reportsed[i]),reportsed[i+1]);
-                        }
-                    }
-                    }
-                    newdriver.reports = reportses;
+                    
                     drivers.put(newdriver.empId,newdriver);//add to hashmap
 
                     }
@@ -145,9 +217,13 @@ public class Main {
                     newtrip.purpose = itemRay[5];
                     newtrip.driverId = Integer.parseInt(itemRay[6]);
                     newtrip.vehicleId = Integer.parseInt(itemRay[7]);
-                    newtrip.trueDeparture = LocalDate.parse(itemRay[7]);
-                    newtrip.trueArrival = LocalDate.parse(itemRay[7]);
-                    newtrip.status = itemRay[9];
+                    if(itemRay[8].length() >0){
+                        newtrip.trueDeparture = LocalDate.parse(itemRay[8]);
+                    }
+                    if(itemRay[9].length() >0){
+                        newtrip.trueArrival = LocalDate.parse(itemRay[9]);
+                    }
+                    newtrip.status = itemRay[10];
 
 
                     trips.put(newtrip.tripId,newtrip);//add to hashmap

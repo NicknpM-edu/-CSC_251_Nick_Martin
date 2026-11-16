@@ -24,6 +24,7 @@ LocalDate acquisitionDate;
 ArrayList<String> OperationalStatus = new ArrayList<>();//[1] is status(operational, maintenance, retired, unavailable), any after are "outstanding safety restrictions or maintenance requirements"
 Integer mileage;// have the ability to keep history somehow(file probably)
 ArrayList<String> requirements = new ArrayList<>();//each are a different requirement or equipment for operation
+HashMap<Integer, String> reports = new HashMap<>();//hashmap of problem reports history with an associated trip id for each?
 
 //maintenance info
 ArrayList<Integer> maintHistory = new ArrayList<>();//id of historical info of each maintenance job as well 
