@@ -22,14 +22,15 @@ String year;
 String type;
 LocalDate acquisitionDate;
 ArrayList<String> OperationalStatus = new ArrayList<>();//[1] is status(operational, maintenance, retired, unavailable), any after are "outstanding safety restrictions or maintenance requirements"
-Integer mileage;// have the ability to keep history somehow(file probably)
+Integer mileage;// have the ability to keep history somehow
+HashMap<Integer, Integer> mileageHistory = new HashMap<>();;// have the ability to keep history somehow
 ArrayList<String> requirements = new ArrayList<>();//each are a different requirement or equipment for operation
 HashMap<Integer, String> reports = new HashMap<>();//hashmap of problem reports history with an associated trip id for each?
 
 //maintenance info
 ArrayList<Integer> maintHistory = new ArrayList<>();//id of historical info of each maintenance job as well 
 
-//LocalDate lastMaint = (maintHistory.get(maintHistory.size()-1)).maintDay;//last time maintenance was performed (calculated from last day in maintHistory)
+LocalDate lastMaint;//last time maintenance was performed (calculated from last day in maintHistory)
 LocalDate scheduledMaint;//next maintenance scheduled for vehicle
 Integer maintFrequencyDays;//how many days between each scheduled maintenance(if based on elapsed time)
 Integer maintFrequencyMiles;//how many miles between each scheduled maintenance(if based on elapsed time)

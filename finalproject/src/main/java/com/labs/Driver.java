@@ -21,7 +21,7 @@ String licenseClassification;
 LocalDate licenseExpiration;
 ArrayList<String> special = new ArrayList<>();//each are a different requirement or certification for operation, then expiration date
 ArrayList<LocalDate> offTime = new ArrayList<>();//each are a different day or time period employee is unavailable this month
-ArrayList<String> history = new ArrayList<>();//each are a different trip id they have been associated with
+ArrayList<Integer> history = new ArrayList<>();//each are a different trip id they have been associated with
 
 
 

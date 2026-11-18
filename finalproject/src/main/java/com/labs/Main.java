@@ -2,7 +2,7 @@
 @author: Nick Martin
 @date: 11/2/2026
 @purpose: show and complete dashboard operations
-@where i left off: finish driver "report" path
+@where i left off: finish all role paths, finish file updates
 */
 
 
@@ -53,7 +53,7 @@ public class Main {
                 Driver user = drivers.get(Integer.parseInt(entry));
 
                 while(user != null && (!entry.equals("Leave"))){
-                    System.out.println("What would you like to see? \n review assigned [trips], [report] vehicle problem");
+                    System.out.println("What would you like to see? \n review assigned [trips], [Leave] program");
                     entry = speak.nextLine();//receive id
 
                     if (entry.equals("trips")){//iterate through trips and make list of those that belong to user
@@ -67,7 +67,7 @@ public class Main {
                             }
                         }
                         if(assigned.size() > 0){
-                            System.out.println("What would you like to do with assigned trips? \n [confirm] trip completion, [Leave] program");
+                            System.out.println("What would you like to do with assigned trips? \n [confirm] trip completion, [report] vehicle problem, [Leave] program");
                             entry = speak.nextLine();//entry
 
                             if(entry.equals("confirm")){
@@ -78,7 +78,7 @@ public class Main {
                                     if (trip.tripId == Integer.parseInt(entry)){
                                         if(trip.status.equals("in-progress")){
                                         Boolean properEntry = false;
-                                        while(properEntry == false && (!entry.equals("Leave"))){
+                                        while(properEntry == false){
                                             try{
                                             System.out.println("What was the Departure time for the trip \n in xxxx(year)-xx(month)-xx(day) format");
                                             String entryDeparture = speak.nextLine();//entry
@@ -86,9 +86,28 @@ public class Main {
                                             System.out.println("What was the Arrival time for the trip \n in xxxx(year)-xx(month)-xx(day) format");
                                             String entryArrival = speak.nextLine();//entry
                                             if(LocalDate.parse(entryArrival).isAfter(LocalDate.parse(entryDeparture))){
-                                                trip.status = "completed";
-                                                System.out.println("Update complete");
-                                                properEntry = true;
+                                                try{
+                                                    System.out.println("What is the new mileage on the vehicle");
+                                                    String entryMiles = speak.nextLine();//entry
+
+
+                                                    Vehicle used = vehicles.get(trip.vehicleId);
+                                                    if(Integer.parseInt(entryMiles) > used.mileage){
+                                                        trip.status = "completed";
+                                                        trip.trueDeparture = LocalDate.parse(entryDeparture);
+                                                        trip.trueArrival = LocalDate.parse(entryArrival);
+                                                        used.mileage = Integer.parseInt(entryMiles);
+                                                        used.mileageHistory.put(trip.tripId,Integer.parseInt(entryMiles));
+                                                        System.out.println("Update complete");
+                                                        properEntry = true;
+                                                    }
+                                                    else{
+                                                        System.out.println("Improper entry, new mileage must be more than old mileage");
+                                                    }
+                                                }
+                                                catch(Exception e){
+                                                System.out.println("Improper entry, mileage must be a number");
+                                            }
                                             }
                                             else{
                                                 System.out.println("Improper entry, arrival date must be after departure date");
@@ -97,6 +116,8 @@ public class Main {
                                             catch(Exception e){
                                                 System.out.println("Improper entry, format must be xxxx(year)-xx(month)-xx(day)");
                                             }
+
+                                            
                                             
 
                                         }
@@ -108,15 +129,30 @@ public class Main {
                                     }
                                 }
                             }
+                            if (entry.equals("report")){//make vehicle problem report
+                                System.out.println("give the ID number of the trip you would like to report a problem");
+                                entry = speak.nextLine();//entry
+
+                                for (Trip trip : assigned){
+                                    if (trip.tripId == Integer.parseInt(entry)){
+                                        System.out.println("What is the problem you would like to report");
+                                        entry = speak.nextLine();//entry
+
+                                        Vehicle problem = vehicles.get(trip.vehicleId);
+                                        problem.reports.put((trip.tripId),entry);
+
+                                        System.out.println("report saved");
+
+                                    }
+                                }
+                            }
                         }
                         else{
                             System.out.println("No assigned trips");
                         }
                     
                     }
-                    if (entry.equals("report")){//make vehicle problem report
-                        
-                    }
+                    
                 }
                 if(user == null){
                     System.out.println("Driver ID does not exist");
@@ -126,7 +162,27 @@ public class Main {
                 
                 
             }
+            if(entry.equals("Dispatcher")){//make/change trips with full variables
+                
+            }
+
+            if(entry.equals("Maintenance Supervisor")){//create/ change maintenaince variables, see vehicle reports, see repair expenses
+                
+            }
+            if(entry.equals("Maintenance Technician")){
+                
+            }
+            if(entry.equals("Fleet Manager")){
+                
+            }
         }
+
+        //update all files
+        
+        UpdateItems(Dpath,"driver");//Update driver hashmap
+        UpdateItems(Vpath,"vehicle");//Update vehicle hashmap
+        UpdateItems(Tpath,"trip");//Update trips hashmap
+        UpdateItems(Mpath,"workOrders");//Update workOrders hashmap
 
         
     }
@@ -157,13 +213,25 @@ public class Main {
                         newvehicle.OperationalStatus.add(item);
                     }
                     newvehicle.mileage = Integer.parseInt(itemRay[9]);
-                    if(itemRay[10].split(".").length > 1){
-                    for (String item : itemRay[10].split(".")){
+
+                    String[] mileged = itemRay[10].split(".");
+                    HashMap<Integer, Integer> mileges = new HashMap<>();
+                    if(mileged.length > 1){
+                    for(int i = 0;i<=(mileged.length);i++){
+                        if((i%2) == 0){
+                            mileges.put(Integer.parseInt(mileged[i]),Integer.parseInt(mileged[i+1]));
+                        }
+                    }
+                    }
+                    newvehicle.mileageHistory = mileges;
+
+                    if(itemRay[11].split(".").length > 1){
+                    for (String item : itemRay[11].split(".")){
                         newvehicle.requirements.add(item);
                     }
                     }
-                    //turn itemray[9] into hashmap
-                    String[] reportsed = itemRay[9].split(".");
+                    //turn itemray[12] into hashmap
+                    String[] reportsed = itemRay[12].split(".");
                     HashMap<Integer, String> reportses = new HashMap<>();
                     if(reportsed.length > 1){
                     for(int i = 0;i<=(reportsed.length);i++){
@@ -174,8 +242,18 @@ public class Main {
                     }
                     newvehicle.reports = reportses;
 
+                    //maint section
+                    System.out.println(itemRay[13]);
+                    if(itemRay[13].split(".").length > 1){
+                    for (String item : itemRay[13].split(".")){
+                        newvehicle.maintHistory.add(Integer.parseInt(item));
+                    }
+                    }
+                    newvehicle.scheduledMaint = LocalDate.parse(itemRay[14]);
+                    newvehicle.maintFrequencyDays = Integer.parseInt(itemRay[15]);
+                    newvehicle.maintFrequencyMiles = Integer.parseInt(itemRay[16]);
+                    newvehicle.maintFrequencyMode = itemRay[17];
 
-                    
                     vehicles.put(newvehicle.CompanyID,newvehicle);//add to hashmap
                     
                     }
@@ -194,13 +272,14 @@ public class Main {
                     if((itemRay[7].split(".")).length > 1){//prevent parse error if empty
                         for (String item : itemRay[7].split(".")){
                             
-                            
                                 newdriver.offTime.add(LocalDate.parse(item));
                                 
                         }
                     }
+                    if((itemRay[7].split(".")).length > 1){//prevent parse error if empty
                     for (String item : itemRay[8].split(".")){
-                        newdriver.history.add(item);
+                        newdriver.history.add(Integer.parseInt(item));
+                    }
                     }
                     
                     drivers.put(newdriver.empId,newdriver);//add to hashmap
@@ -251,5 +330,86 @@ public class Main {
 
 
 
+    }
+
+
+    public static void UpdateItems(String path, String type){
+
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(path))) {//write csv
+
+            if (type == "vehicle"){//vehicle class
+
+                for (Vehicle vehicle : vehicles.values()) {
+                    //arraylist iterate to string
+                    String opStatus = "";
+                    for (String item : vehicle.OperationalStatus){
+                        opStatus += item+".";
+                    }
+                    //hashmap iterate to string
+                    String mileHist = "";
+                    for (Integer item : vehicle.mileageHistory.keySet()){
+                        mileHist += item+"."+vehicle.mileageHistory.get(item);
+                    }
+                    String require = "";
+                    for (String item : vehicle.requirements){
+                        require += item+".";
+                    }
+                    String reported = "";
+                    for (Integer item : vehicle.reports.keySet()){
+                        reported += item+"."+vehicle.reports.get(item);
+                    }
+                    
+                    String maintHis = "";
+                    for (Integer item : vehicle.maintHistory){
+                        maintHis += item+".";
+                    }
+                    bw.write(vehicle.CompanyID+","+vehicle.VIN+","+vehicle.licensePlate+","+vehicle.make+","+vehicle.model+","+vehicle.year+","+vehicle.type+","+vehicle.acquisitionDate+","+opStatus+","+vehicle.mileage+","+mileHist+","+require+","+maintHis+","+vehicle.scheduledMaint+","+vehicle.maintFrequencyDays+","+vehicle.maintFrequencyMiles+","+vehicle.maintFrequencyMode);
+                    bw.newLine();  // add line break
+                }
+
+
+            }if (type == "driver"){//driver class
+
+                for (Driver driver : drivers.values()) {
+                    //arraylist iterate to string
+                    String spec = "";
+                    for (String item : driver.special){
+                        spec += item+".";
+                    }
+                    
+                    String off = "";
+                    for (LocalDate item : driver.offTime){
+                        off += item+".";
+                    }
+                    String tripHist = "";
+                    for (Integer item : driver.history){
+                        off += item+".";
+                    }
+                    
+                    bw.write(driver.empId+","+driver.name+","+driver.empStatus+","+driver.licenseID+","+driver.licenseClassification+","+driver.licenseExpiration+","+spec+","+off+","+tripHist);
+                    bw.newLine();  // add line break
+                }
+
+
+            }if (type == "trip"){//trip class
+
+                for (Trip trip : trips.values()) {
+                    
+                    bw.write(trip.tripId+","+trip.origin+","+trip.destination+","+trip.expDeparture+","+trip.expArrival+","+trip.purpose+","+trip.driverId+","+trip.vehicleId+","+trip.trueDeparture+","+trip.trueArrival+","+trip.status);
+                    bw.newLine();  // add line break
+                }
+
+
+            }if (type == "workOrders"){//trip class
+                for (Maintenance maint : workOrders.values()) {
+                    
+                    bw.write(maint.maintId+","+maint.maintDay+","+maint.maintVehicle+","+maint.totalCost+","+maint.repairNotes);
+                    bw.newLine();  // add line break
+                }
+            }
+        }
+        catch(IOException e){//if it can't find the file
+            System.out.println(e);
+        }
     }
 }
